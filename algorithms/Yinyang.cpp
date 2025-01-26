@@ -13,7 +13,7 @@ void Yinyang::initParameters(int data_scale, int data_dimension, int k) {
     this->data_dimension = data_dimension;
     this->k = k;
     this->labels.assign(this->data_scale, -1);
-    group_num = k / 10;
+    group_num = k < 10 ? k : k / 10;
     ub = std::vector<double>(data_scale, 0.0);
     global_lb = std::vector<double>(data_scale, 0.0);
     group_lb = std::vector<std::vector<double>>(data_scale, std::vector<double>(group_num, 0.0));
@@ -58,7 +58,7 @@ void Yinyang::run() {
         runtime[it] = double(end_time - start_time) / CLOCKS_PER_SEC;
         std::cout << "iter: " << it << ", runtime: " << runtime[it] << " s" << std::endl;
         it++;
-    } while (!hasConverged() && it < MAX_ITERATIONS);
+    } while (/*!hasConverged() && */it < MAX_ITERATIONS);
 
     // show total runtime
     double total_runtime = init_time;

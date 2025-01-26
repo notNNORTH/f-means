@@ -12,7 +12,7 @@ public:
         dis = std::numeric_limits<double>::max();
         id = -1;
     }
-    KnnRes(double dis): dis(dis) {}
+    KnnRes(double dis): dis(dis) { id = -1; }
     KnnRes(double dis, int id): dis(dis), id(id) {}
     ~KnnRes() {}
 };

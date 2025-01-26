@@ -26,9 +26,9 @@ void Lloyd::run() {
 
         end_time = clock();
         runtime[it] = double(end_time - start_time) / CLOCKS_PER_SEC;
-        std::cout << "iter: " << it << ", runtime: " << runtime[it] << " s" << std::endl;
+        // std::cout << "iter: " << it << ", runtime: " << runtime[it] << " s" << std::endl;
         it++;
-    } while (!hasConverged() && it < max_iterations);
+    } while (/*!hasConverged() && */it < max_iterations);
 
     // show total runtime
     double total_runtime = init_time;
@@ -38,6 +38,29 @@ void Lloyd::run() {
     std::cout << "successfully run Lloyd in " << total_runtime << " s" << std::endl;
 
 }
+
+void Lloyd::runFairly() {
+    int it = 0;     // iteration
+    double start_time, end_time;
+    // initializeCentroids();
+    // main loop
+    do {
+        start_time = clock();
+        assignLabels();
+        updateCentroidsFairly();
+        end_time = clock();
+        runtime[it] = double(end_time - start_time) / CLOCKS_PER_SEC;
+        // std::cout << "iter: " << it << ", runtime: " << runtime[it] << " s" << std::endl;
+        it++;
+    } while (/*!hasConverged() && */it < max_iterations);
+    // show total runtime
+    double total_runtime = init_time;
+    for (size_t i = 0; i < max_iterations; i++) {
+        total_runtime += runtime[i];
+    }
+    std::cout << "successfully run Lloyd (F) in " << total_runtime << " s" << std::endl;
+}
+
 
 void Lloyd::assignLabels() {
     // clear all clusters firstly
@@ -60,6 +83,7 @@ void Lloyd::assignLabels() {
         }
 
         labels[j] = nearest_centroid_id;
+        distances[j] = nearest_centroid_dis;
         centroid_list[nearest_centroid_id]->getCluster()->addDataId(j);
     }
 }

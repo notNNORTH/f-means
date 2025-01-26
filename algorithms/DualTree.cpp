@@ -54,7 +54,7 @@ void DualTree::run() {
         runtime[it] = double(end_time - start_time) / CLOCKS_PER_SEC;
         std::cout << "iter: " << it << ", runtime: " << runtime[it] << " s" << std::endl;
         it++;
-    } while (!hasConverged() && it < max_iterations);
+    } while (/*!hasConverged() && */it < max_iterations);
 
     // show total runtime
     double total_runtime = init_time;

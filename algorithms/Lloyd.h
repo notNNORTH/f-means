@@ -10,6 +10,8 @@ public:
 
     void run() override;
 
+    void runFairly() override;
+
 protected:
     void assignLabels() override;
 

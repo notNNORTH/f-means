@@ -237,6 +237,11 @@ namespace Utils {
         if (root.leaf) {
             for (int id : root.data_id_list) {
                 double distance = distance1(point, dataset[id]);
+                if (res.id == -1) {
+                    res.dis = distance;
+                    res.id = id;
+                }
+
                 if (distance >= res.dis)
                     continue;
                 
@@ -261,6 +266,11 @@ namespace Utils {
         if (root.leaf) {
             for (int id : root.data_id_list) {
                 double distance = distance1(point, centroid_list[id]->coordinate);
+                if (res.id == -1) {
+                    res.dis = distance;
+                    res.id = id;
+                }
+
                 if (distance >= res.dis)
                     continue;
                 

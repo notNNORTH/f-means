@@ -53,20 +53,20 @@ void DaskMeans::run() {
         runtime[it] = double(end_time - start_time) / CLOCKS_PER_SEC;
         std::cout << "iter: " << it << ", runtime: " << runtime[it] << " s" << std::endl;
         it++;
-    } while (!hasConverged() && it < max_iterations);
+    } while (/*!hasConverged() && */it < max_iterations);
 
     // show total runtime
     double total_runtime = init_time;
     for (size_t i = 0; i < max_iterations; i++) {
         total_runtime += runtime[i];
     }
-    std::cout << "iter: " << it << ", pruned totally: " << pruned_point / 1000000 << std::endl;
+    // std::cout << "iter: " << it << ", pruned totally: " << pruned_point / 1000000 << std::endl;
     std::cout << "successfully run Dask-means in " << total_runtime << " s" << std::endl;
 }
 
 void DaskMeans::output(const std::string& file_path) {
-    // std::ofstream file(file_path, std::ios::app);
-    std::ofstream file(file_path);
+    std::ofstream file(file_path, std::ios::app);
+    // std::ofstream file(file_path);
     if (!file.is_open()) {
         throw std::runtime_error("Cannot open file: " + file_path);
     }
@@ -86,6 +86,15 @@ void DaskMeans::output(const std::string& file_path) {
     }
 
     file.close();
+}
+
+void DaskMeans::rewriteDataInCentroids() {
+    for (int i = 0; i < k; i++) {
+        centroid_list[i]->getCluster()->clear();
+    }
+    for (int i = 0; i < data_scale; i++) {
+        centroid_list[labels[i]]->getCluster()->addDataId(i);
+    }
 }
 
 void DaskMeans::buildDataIndex(int capacity) {
@@ -135,13 +144,13 @@ void DaskMeans::assignLabels(Node& node, double ub) {
     ballTree2nn(node.pivot, *(centroid_index->root), res, centroid_list);
     if (res[1]->dis - res[0]->dis > 2 * node.radius) {
         if (res[0]->id == node.centroid_id) {
-            pruned_point += node.point_number;
+            // pruned_point += node.point_number;
             return;
         }
         assignToCluster(node, res[0]->id);
         Cluster* new_cluster = centroid_list[node.centroid_id]->cluster;
         new_cluster->dataIn(node.point_number, node.sum_vector);
-        pruned_point += node.point_number;
+        // pruned_point += node.point_number;
         return;
     }
 
@@ -159,14 +168,14 @@ void DaskMeans::assignLabels(Node& node, double ub) {
             Cluster* old_cluster = centroid_list[node.centroid_id]->cluster;
             old_cluster->dataOut(node.point_number, node.sum_vector);
         }
-        // 4. assign each point in leaf node
+        // 4. assign each point in the leaf node
         for (int i = 0; i < node.point_number; i++) {
             std::vector<double> data = dataset[node.data_id_list[i]];
             int centroid_id = node.centroid_id_for_data[i];
             // if the point is assigned before
             if (centroid_id != -1 && distance1(data, centroid_list[centroid_id]->coordinate) 
                 < inner_bound[centroid_id] / 2 ) {
-                    pruned_point += 1;
+                    // pruned_point += 1;
                     return;
                 }
 
@@ -178,6 +187,8 @@ void DaskMeans::assignLabels(Node& node, double ub) {
                 old_cluster->dataOut(1, data);
             }
             centroid_id = res[0].id;
+            labels[node.data_id_list[i]] = centroid_id;
+            // node.centroid_id_for_data[i] = centroid_id;
             Cluster* new_cluster = centroid_list[centroid_id]->cluster;
             new_cluster->dataIn(1, data);
 
@@ -216,7 +227,8 @@ void DaskMeans::assignToCluster(Node& node, int centroid_id) {
                 Cluster* old_cluster = centroid_list[clu_id]->cluster;
                 old_cluster->dataOut(1, dataset[node.data_id_list[i]]);
             }
-            node.centroid_id_for_data[i] = centroid_id;
+            labels[node.data_id_list[i]] = centroid_id;
+            // node.centroid_id_for_data[i] = centroid_id;
         }
     } else {
         if (node.leftChild != nullptr) {

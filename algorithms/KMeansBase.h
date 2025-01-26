@@ -15,7 +15,7 @@ class KMeansBase {
 public:
     std::vector<std::vector<double>> dataset;
     std::vector<Centroid*> centroid_list;   // remember to release the memory
-    std::vector<int> labels;    // noting which cluster the data point is assigned to
+    std::vector<int> labels;        // noting which cluster the data point is assigned to
     int data_scale;
     int data_dimension;
     int k;
@@ -23,6 +23,12 @@ public:
     double convergence_threshold;
     std::vector<double> runtime;
     double init_time = 0.0;
+
+    // for f-means
+    std::vector<double> distances;  // the distance between the data point and its nearest centroid
+    std::vector<int> group_labels;
+    int g = 10;     // group number
+    double theta = 1.0;
 
 public:
     KMeansBase(int max_iterations = MAX_ITERATIONS, double convergence_threshold = 1e-4);
@@ -39,9 +45,17 @@ public:
 
     virtual void run() {};
 
+    virtual void runFairly() {};
+
     virtual void output(const std::string& file_path);
 
-    void writeRuntime(const std::string& file_path);
+    void measure();
+
+    void equalPointsGrouping();
+
+    void equalDistanceGrouping();
+
+    void writeRuntime(const std::string& file_path, std::string name = "null");
 
 protected:
     virtual void initializeCentroids();
@@ -49,6 +63,8 @@ protected:
     virtual void assignLabels();
 
     virtual void updateCentroids();
+
+    virtual void updateCentroidsFairly();
 
     virtual bool hasConverged();
 };

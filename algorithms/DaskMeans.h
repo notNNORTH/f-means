@@ -31,6 +31,8 @@ public:
 
     void output(const std::string& file_path) override;
 
+    void rewriteDataInCentroids();
+
 protected:
     void buildDataIndex(int capacity = 1);
 
