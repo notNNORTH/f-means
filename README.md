@@ -1,7 +1,7 @@
 # Tifi-means
 ## 1 Introduction
 
-***Tifi-means*** is a fast, memory-efficient, and cost-predictable <u>**da**</u>taset <u>**s**</u>implification **<u>$k$</u>-means** algorithm for large-scale spatial vectors. This repo holds the source code and scripts for reproducing the key experiments of our paper: *On Simplifying Large-Scale Spatial Vectors: Fast, Memory-Efficient, and Cost-Predictable k-means*.
+***Tifi-means*** is a fast, memory-efficient, and fair $k$-means algorithm for large-scale clustering. This repo holds the source code and scripts for reproducing the key experiments of our paper: Avoiding Over-Representation in Large-Scale Clustering: A Fast and Individually Fair $k$-means.
 
 
 ## 2 Comparison Algorithms
