@@ -1,5 +1,5 @@
 #include "algorithms/Lloyd.h"
-#include "algorithms/DaskMeans.h"
+#include "algorithms/TifiMeans.h"
 #include "algorithms/DualTree.h"
 #include "algorithms/Hamerly.h"
 #include "algorithms/Drake.h"
@@ -31,105 +31,114 @@ public:
         : data_scale(data_scale), data_dimension(data_dimension), k(k), dataset_name(dataset_name) {}
     ~Experiment() {}
 
-    void set_file_path(const std::string& data_path, const std::string& output_path);
+    void setFilePath(const std::string& data_path, const std::string& output_path);
 
-    void test_Lloyd(double theta = 1.0);
+    void testLloyd();
 
-    void test_dask_means();
+    void testFairMeans(double theta = 1.0);
 
-    void test_DualTree();
+    void testTifiMeans();
 
-    void test_Hamerly();
+    void testDualTree();
 
-    void test_Drake();
+    void testHamerly();
 
-    void test_Yinyang();
+    void testDrake();
 
-    void test_Elkan();
+    void testYinyang();
+
+    void testElkan();
 };
 
-void Experiment::set_file_path(const std::string& data_path, const std::string& output_path) {
+void Experiment::setFilePath(const std::string& data_path, const std::string& output_path) {
     this->data_path = data_path;
     this->output_path = output_path;
 }
 
-void Experiment::test_Lloyd(double theta) {
+void Experiment::testLloyd() {
     cout << "=============starting Lloyd=============" << endl;
     Lloyd* lloyd = new Lloyd();
     lloyd->initParameters(data_scale, data_dimension, k);
     lloyd->load(data_path);
     lloyd->run();
-    // lloyd->measure();
-
-    // f-means
-    // lloyd->theta = theta;
-    // lloyd->equalDistanceGrouping();
-    // lloyd->runFairly();
-    // lloyd->measure();
-    // lloyd->output("test.txt");
-    lloyd->writeRuntime(output_path, "Lloyd", dataset_name);
+    // lloyd->writeRuntime(output_path, "Lloyd", dataset_name);
     delete lloyd;
 }
 
-void Experiment::test_dask_means() {
-    cout << "=============starting Dask-means=============" << endl;
-    DaskMeans* dask_means = new DaskMeans(leaf_capacity);
-    dask_means->initParameters(data_scale, data_dimension, k);
-    dask_means->load(data_path);
-    dask_means->run();
-    // dask_means->rewriteDataInCentroids();
-    // dask_means->output("test.txt");
-    dask_means->writeRuntime(output_path, "DaskMeans", dataset_name);
-    delete dask_means;
+void Experiment::testFairMeans(double theta) {
+    cout << "=============starting Lloyd=============" << endl;
+    Lloyd* lloyd = new Lloyd();
+    lloyd->initParameters(data_scale, data_dimension, k);
+    lloyd->load(data_path);
+    lloyd->run();
+    lloyd->measure();
+
+    // f-means
+    cout << "=============starting individual fair=============" << endl;
+    lloyd->theta = theta;
+    lloyd->equalDistanceGrouping();
+    lloyd->runFairly();
+    lloyd->measure();
+    delete lloyd;
 }
 
-void Experiment::test_DualTree() {
+void Experiment::testTifiMeans() {
+    cout << "=============starting Tifi-means=============" << endl;
+    TifiMeans* Tifi_means = new TifiMeans(leaf_capacity);
+    Tifi_means->initParameters(data_scale, data_dimension, k);
+    Tifi_means->load(data_path);
+    Tifi_means->run();
+    // Tifi_means->writeRuntime(output_path, "TifiMeans", dataset_name);
+    delete Tifi_means;
+}
+
+void Experiment::testDualTree() {
     cout << "=============starting DualTree=============" << endl;
     DualTree* dual_tree = new DualTree(6);
     dual_tree->initParameters(data_scale, data_dimension, k);
     dual_tree->load(data_path);
     dual_tree->run();
-    dual_tree->writeRuntime(output_path, "DualTree", dataset_name);
+    // dual_tree->writeRuntime(output_path, "DualTree", dataset_name);
     delete dual_tree;
 }
 
-void Experiment::test_Hamerly() {
+void Experiment::testHamerly() {
     cout << "=============starting Hamerly=============" << endl;
     Hamerly* hamerly = new Hamerly();
     hamerly->initParameters(data_scale, data_dimension, k);
     hamerly->load(data_path);
     hamerly->run();
-    hamerly->writeRuntime(output_path, "Hamerly", dataset_name);
+    // hamerly->writeRuntime(output_path, "Hamerly", dataset_name);
     delete hamerly;
 }
 
-void Experiment::test_Drake() {
+void Experiment::testDrake() {
     cout << "=============starting Drake=============" << endl;
     Drake* drake = new Drake();
     drake->initParameters(data_scale, data_dimension, k);
     drake->load(data_path);
     drake->run();
-    drake->writeRuntime(output_path, "Drake", dataset_name);
+    // drake->writeRuntime(output_path, "Drake", dataset_name);
     delete drake;
 }
 
-void Experiment::test_Yinyang() {
+void Experiment::testYinyang() {
     cout << "=============starting Yinyang=============" << endl;
     Yinyang* yinyang = new Yinyang();
     yinyang->initParameters(data_scale, data_dimension, k);
     yinyang->load(data_path);
     yinyang->run();
-    yinyang->writeRuntime(output_path, "Yinyang", dataset_name);
+    // yinyang->writeRuntime(output_path, "Yinyang", dataset_name);
     delete yinyang;
 }
 
-void Experiment::test_Elkan() {
+void Experiment::testElkan() {
     cout << "=============starting Elkan=============" << endl;
     Elkan* elkan = new Elkan();
     elkan->initParameters(data_scale, data_dimension, k);
     elkan->load(data_path);
     elkan->run();
-    elkan->writeRuntime(output_path, "Elkan", dataset_name);
+    // elkan->writeRuntime(output_path, "Elkan", dataset_name);
     delete elkan;
 }
 

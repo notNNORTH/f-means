@@ -1,6 +1,6 @@
-// DaskMeans.h
-#ifndef DASKMEANS_H
-#define DASKMEANS_H
+// TifiMeans.h
+#ifndef TifiMEANS_H
+#define TifiMEANS_H
 
 #include <vector>
 #include "KMeansBase.h"
@@ -10,7 +10,7 @@
 
 using namespace Utils;
 
-class DaskMeans : public KMeansBase {
+class TifiMeans : public KMeansBase {
 protected:
     BallTree* data_index;
     BallTree* centroid_index;
@@ -23,9 +23,9 @@ protected:
     double pruned_point = 0.0;
 
 public:
-    DaskMeans(int capacity, int max_iterations = MAX_ITERATIONS, double convergence_threshold = 0.001);
+    TifiMeans(int capacity, int max_iterations = MAX_ITERATIONS, double convergence_threshold = 0.001);
 
-    ~DaskMeans() override;
+    ~TifiMeans() override;
 
     void run() override;
 

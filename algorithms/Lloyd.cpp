@@ -58,7 +58,7 @@ void Lloyd::runFairly() {
     for (size_t i = 0; i < max_iterations; i++) {
         total_runtime += runtime[i];
     }
-    std::cout << "successfully run Lloyd (F) in " << total_runtime << " s" << std::endl;
+    // std::cout << "successfully run Lloyd (F) in " << total_runtime << " s" << std::endl;
 }
 
 

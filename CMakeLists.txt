@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(DaskMeansCpp VERSION 1.0)
+project(TifiMeansCpp VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -20,7 +20,7 @@ set(SOURCES
     utils/Utils.cpp
     algorithms/KMeansBase.cpp
     algorithms/Lloyd.cpp
-    algorithms/DaskMeans.cpp
+    algorithms/TifiMeans.cpp
     algorithms/DualTree.cpp
     algorithms/Hamerly.cpp
     algorithms/Drake.cpp
@@ -35,4 +35,4 @@ set(SOURCES
     structure/KdTreeNode.cpp
 )
 
-add_executable(DaskMeans ${SOURCES})
+add_executable(TifiMeans ${SOURCES})

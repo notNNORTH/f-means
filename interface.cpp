@@ -11,8 +11,6 @@ int main(int argc, char* argv[]){
     int data_scale = 1000;
     int data_dimension = 2;
     int k = 10;
-    // int k_list[5] = {10, 50, 100, 150, 200};
-    // int k_list[1] = {10};
 
     for (int i = 1; i < argc; i++) {
         string arg = argv[i];
@@ -33,29 +31,18 @@ int main(int argc, char* argv[]){
 
     cout << "running: " << data_path << endl;
 
-
-    // for (auto k : k_list) {
-    //     cout << "======================Strating experiment with k=" << k << "======================" << endl;
-    //     Experiment* experiment = new Experiment(data_scale, data_dimension, k);
-    //     experiment->set_file_path(data_path, output_path);
-
-    //     // experiment->load("/mnt/e/f-means/dataset/7-19d-CO.csv");
-    //     // experiment->write_distance("/mnt/e/f-means/dataset/dis7_COO.txt");
-
-    //     // you can select your algorithms here
-    //     double theta_list[2] = {0.05, 3.0};
-    //     for (auto theta : theta_list) {
-    //         cout << "theta =" << theta << "======================" << endl;
-    //         experiment->test_Lloyd(theta);
-    //     }
-    // }
     Experiment* experiment = new Experiment(data_scale, data_dimension, k, dataset);
-    experiment->set_file_path(data_path, output_path);
-    // experiment->test_Lloyd();
-    experiment->test_DualTree();
-    experiment->test_Elkan();
-    // experiment->test_Hamerly();
-    // experiment->test_Drake();
-    // experiment->test_Yinyang();
-    // experiment->test_dask_means();
+    experiment->setFilePath(data_path, output_path);
+
+    // for speedup
+    experiment->testLloyd();
+    experiment->testElkan();
+    experiment->testHamerly();
+    experiment->testDrake();
+    experiment->testYinyang();
+    experiment->testDualTree();
+    experiment->testTifiMeans();
+
+    // for fairness
+    // experiment->testFairMeans();
 } 
