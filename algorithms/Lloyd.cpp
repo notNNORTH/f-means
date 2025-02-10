@@ -26,7 +26,7 @@ void Lloyd::run() {
 
         end_time = clock();
         runtime[it] = double(end_time - start_time) / CLOCKS_PER_SEC;
-        // std::cout << "iter: " << it << ", runtime: " << runtime[it] << " s" << std::endl;
+        std::cout << "iter: " << it << ", runtime: " << runtime[it] << " s" << std::endl;
         it++;
     } while (/*!hasConverged() && */it < max_iterations);
 

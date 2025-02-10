@@ -28,7 +28,7 @@ public:
     std::vector<double> distances;  // the distance between the data point and its nearest centroid
     std::vector<int> group_labels;
     int g = 10;     // group number
-    double theta = 1.0;
+    double theta = 0.05;
 
 public:
     KMeansBase(int max_iterations = MAX_ITERATIONS, double convergence_threshold = 1e-4);
@@ -55,7 +55,7 @@ public:
 
     void equalDistanceGrouping();
 
-    void writeRuntime(const std::string& file_path, std::string name = "null");
+    void writeRuntime(const std::string& file_path, std::string name = "null", std::string dataset_name = "null");
 
 protected:
     virtual void initializeCentroids();

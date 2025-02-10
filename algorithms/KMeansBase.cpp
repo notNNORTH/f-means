@@ -114,14 +114,14 @@ void KMeansBase::measure() {
             max_distance = distances[i];
         }
     }
-    std::cout << "max distance: " << max_distance << std::endl;
+    // std::cout << "max distance: " << max_distance << std::endl;
 
     // 1. get sse
     double sse = 0.0;
     for (int i = 0; i < data_scale; i++) {
         sse += distances[i] * distances[i];
     }
-    std::cout << "SSE: " << sse << std::endl;
+    // std::cout << "SSE: " << sse << std::endl;
 
     // 2. get variance
     // divide the distances into k groups based on labels
@@ -146,7 +146,10 @@ void KMeansBase::measure() {
     for (int i = 0; i < k; i++) {
         variance += mses[i];
     }
-    std::cout << "variance: " << variance << std::endl;
+    // std::cout << "variance: " << variance << std::endl;
+
+    std::cout << "SSE, " << "d_max, " << "variance "<< std::endl;
+    std::cout << sse << "," << max_distance << "," << variance << std::endl;
 }
 
 // set group_labels by distances where each group has the same number of points
@@ -184,16 +187,36 @@ void KMeansBase::equalDistanceGrouping() {
 }
 
 // write the runtime to the given file
-void KMeansBase::writeRuntime(const std::string& file_path, string name) {
+void KMeansBase::writeRuntime(const std::string& file_path, string name, string dataset_name) {
     std::ofstream outFile(file_path, std::ios::out | std::ios::app);
     if (!outFile) {
         throw std::runtime_error("Unable to open file: " + file_path);
     }
-    // write init time
+    // 0. dataset name
+    outFile << dataset_name;
+    outFile << ",";
+
+    // 1. algorithm name
     outFile << name;
     outFile << ",";
-    runtime[0] += init_time;
-    // write runtime in main loop
+
+    // 2. k
+    outFile << this->k;
+    outFile << ",";
+
+    // 3. init time
+    outFile << init_time;
+    outFile << ",";
+
+    // 4. total runtime
+    double total_runtime = init_time;
+    for (size_t i = 0; i < MAX_ITERATIONS; i++) {
+        total_runtime += runtime[i];
+    }
+    outFile << total_runtime;
+    outFile << ",";
+
+    // 5. runtime in each iteration
     for (size_t i = 0; i < MAX_ITERATIONS; i++) {
         outFile << runtime[i];
         if (i != MAX_ITERATIONS - 1) {
