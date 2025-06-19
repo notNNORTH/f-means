@@ -46,7 +46,7 @@ You can find all source code of comparison algorithms in `./algorithms/`.
 
 **Compile**
 
-Go to the project file `./Tifi-means-cpp/`, and then enter the following command in the terminal:
+Go to the project file `./f-means-cpp/`, and then enter the following command in the terminal:
 
 ```sh
 mkdir build
@@ -57,7 +57,7 @@ make
 
 **Parameter Configuration and Run:**
 
-To seccessfully run Tifi-means, several parameters are needed:
+To seccessfully run f-means, several parameters are needed:
 
 ```sh
 -data_path        # the path to your input dataset
