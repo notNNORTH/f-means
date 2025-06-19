@@ -1,7 +1,7 @@
-# Tifi-means
+# f-means
 ## 1 Introduction
 
-***Tifi-means*** is a fast, memory-efficient, and fair $k$-means algorithm for large-scale clustering. This repo holds the source code and scripts for reproducing the key experiments of our paper: Avoiding Over-Representation in Large-Scale Clustering: A Fast and Individually Fair $k$-means.
+***f-means*** is a fast, memory-efficient, and fair $k$-means algorithm for large-scale clustering. This repo holds the source code and scripts for reproducing the key experiments of our paper: Scalable and Memory-efficient $k$-means Clustering with Individual Fairness.
 
 
 ## 2 Comparison Algorithms
@@ -37,7 +37,7 @@
 - Organize spatial vectors using a dual-tree structure to accelerate the execution of the $k$-means algorithm.
 - The code is in `./algorithms/DualTree.h` and `./algorithms/DualTree.cpp`.
 
-## 3 How to Run Tifi-means
+## 3 How to Run f-means
 
 ### 3.1 Code with comparison algorithms
 
