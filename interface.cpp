@@ -41,7 +41,7 @@ int main(int argc, char* argv[]){
     experiment->testDrake();
     experiment->testYinyang();
     experiment->testDualTree();
-    experiment->testTifiMeans();
+    experiment->testFMeans();
 
     // for fairness
     // experiment->testFairMeans();

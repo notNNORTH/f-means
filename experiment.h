@@ -1,5 +1,5 @@
 #include "algorithms/Lloyd.h"
-#include "algorithms/TifiMeans.h"
+#include "algorithms/FMeans.h"
 #include "algorithms/DualTree.h"
 #include "algorithms/Hamerly.h"
 #include "algorithms/Drake.h"
@@ -37,7 +37,7 @@ public:
 
     void testFairMeans(double theta = 1.0);
 
-    void testTifiMeans();
+    void testFMeans();
 
     void testDualTree();
 
@@ -82,14 +82,14 @@ void Experiment::testFairMeans(double theta) {
     delete lloyd;
 }
 
-void Experiment::testTifiMeans() {
-    cout << "=============starting Tifi-means=============" << endl;
-    TifiMeans* Tifi_means = new TifiMeans(leaf_capacity);
-    Tifi_means->initParameters(data_scale, data_dimension, k);
-    Tifi_means->load(data_path);
-    Tifi_means->run();
-    // Tifi_means->writeRuntime(output_path, "TifiMeans", dataset_name);
-    delete Tifi_means;
+void Experiment::testFMeans() {
+    cout << "=============starting F-means=============" << endl;
+    FMeans* F_means = new FMeans(leaf_capacity);
+    F_means->initParameters(data_scale, data_dimension, k);
+    F_means->load(data_path);
+    F_means->run();
+    // F_means->writeRuntime(output_path, "FMeans", dataset_name);
+    delete F_means;
 }
 
 void Experiment::testDualTree() {

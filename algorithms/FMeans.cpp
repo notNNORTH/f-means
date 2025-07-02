@@ -1,4 +1,4 @@
-#include "TifiMeans.h"
+#include "FMeans.h"
 #include "../structure/KnnRes.h"
 #include "../structure/Node.h"
 #include "../utils/Utils.h"
@@ -8,21 +8,21 @@
 
 using namespace Utils;
 
-TifiMeans::TifiMeans(int capacity, int max_iterations, double convergence_threshold)
+FMeans::FMeans(int capacity, int max_iterations, double convergence_threshold)
     : KMeansBase(max_iterations, convergence_threshold) {
         this->capacity = capacity;
         data_index = nullptr;
         centroid_index = nullptr;
     }
 
-TifiMeans::~TifiMeans() {
+FMeans::~FMeans() {
     delete data_index;
     delete centroid_index;
     data_index = nullptr;
     centroid_index = nullptr;
 }
 
-void TifiMeans::run() {
+void FMeans::run() {
     int it = 0;     // iteration
     double start_time, end_time;
     start_time = clock();
@@ -61,10 +61,10 @@ void TifiMeans::run() {
         total_runtime += runtime[i];
     }
     // std::cout << "iter: " << it << ", pruned totally: " << pruned_point / 1000000 << std::endl;
-    std::cout << "successfully run Tifi-means in " << total_runtime << " s" << std::endl;
+    std::cout << "successfully run F-means in " << total_runtime << " s" << std::endl;
 }
 
-void TifiMeans::output(const std::string& file_path) {
+void FMeans::output(const std::string& file_path) {
     std::ofstream file(file_path, std::ios::app);
     // std::ofstream file(file_path);
     if (!file.is_open()) {
@@ -88,7 +88,7 @@ void TifiMeans::output(const std::string& file_path) {
     file.close();
 }
 
-void TifiMeans::rewriteDataInCentroids() {
+void FMeans::rewriteDataInCentroids() {
     for (int i = 0; i < k; i++) {
         centroid_list[i]->getCluster()->clear();
     }
@@ -97,12 +97,12 @@ void TifiMeans::rewriteDataInCentroids() {
     }
 }
 
-void TifiMeans::buildDataIndex(int capacity) {
+void FMeans::buildDataIndex(int capacity) {
     data_index = new BallTree(capacity, data_scale);
     data_index->buildBallTree(dataset, data_scale);
 }
 
-void TifiMeans::buildCentroidIndex(int capacity) {
+void FMeans::buildCentroidIndex(int capacity) {
     if (centroid_index != nullptr) {
         delete centroid_index;
         centroid_index = nullptr;
@@ -111,7 +111,7 @@ void TifiMeans::buildCentroidIndex(int capacity) {
     centroid_index->buildBallTree(centroid_list, k);
 }
 
-void TifiMeans::setInnerBound() {
+void FMeans::setInnerBound() {
     // using index ball-tree knn to set inner bound
     this->inner_bound = std::vector<double>(k, -1.0);
     this->inner_id = std::vector<double>(k, -1.0);
@@ -129,7 +129,7 @@ void TifiMeans::setInnerBound() {
     }
 }
 
-void TifiMeans::assignLabels(Node& node, double ub) {
+void FMeans::assignLabels(Node& node, double ub) {
     // 1. if the node is assigned before (pruning 1)
     if (node.centroid_id != -1  && 
         distance1(node.pivot, centroid_list[node.centroid_id]->getCoordinate()) 
@@ -200,7 +200,7 @@ void TifiMeans::assignLabels(Node& node, double ub) {
     }
 }
 
-void TifiMeans::updateCentroids() {
+void FMeans::updateCentroids() {
     for (auto centroid : centroid_list) {
         Cluster* cluster = centroid->cluster;
         std::vector<double> new_coordinate;
@@ -213,7 +213,7 @@ void TifiMeans::updateCentroids() {
 
 // assign a node and its child node to a centroid,
 // and remove all nodes from previous centroids is exist
-void TifiMeans::assignToCluster(Node& node, int centroid_id) {
+void FMeans::assignToCluster(Node& node, int centroid_id) {
     if (node.centroid_id != -1) {
         Cluster* old_cluster = centroid_list[node.centroid_id]->cluster;
         old_cluster->dataOut(node.point_number, node.sum_vector);

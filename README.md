@@ -71,5 +71,5 @@ To seccessfully run f-means, several parameters are needed:
 Below is an example of an executable command. Make sure you are in the `./build/` directory before proceeding.
 
 ```sh
-./TifiMeans -data_path ../dataset/your_dataset.csv -dataset an_alias -data_scale 1000000 -data_dimension 3 -k 200
+./FMeans -data_path ../dataset/your_dataset.csv -dataset an_alias -data_scale 1000000 -data_dimension 3 -k 200
 ```

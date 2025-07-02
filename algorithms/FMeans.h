@@ -1,6 +1,6 @@
-// TifiMeans.h
-#ifndef TifiMEANS_H
-#define TifiMEANS_H
+// FMeans.h
+#ifndef FMEANS_H
+#define FMEANS_H
 
 #include <vector>
 #include "KMeansBase.h"
@@ -10,7 +10,7 @@
 
 using namespace Utils;
 
-class TifiMeans : public KMeansBase {
+class FMeans : public KMeansBase {
 protected:
     BallTree* data_index;
     BallTree* centroid_index;
@@ -23,9 +23,9 @@ protected:
     double pruned_point = 0.0;
 
 public:
-    TifiMeans(int capacity, int max_iterations = MAX_ITERATIONS, double convergence_threshold = 0.001);
+    FMeans(int capacity, int max_iterations = MAX_ITERATIONS, double convergence_threshold = 0.001);
 
-    ~TifiMeans() override;
+    ~FMeans() override;
 
     void run() override;
 
